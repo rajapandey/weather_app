@@ -11,7 +11,7 @@ const Autocomplete: React.FC<AutocompleteProps> = ({ onSelectCity }) => {
 
   useEffect(() => {
     const fetchSuggestions = async () => {
-      if (inputValue.length > 2) {
+      if (inputValue.length) {
         try {
           const response = await axios.get(
             `http://api.openweathermap.org/data/2.5/find?q=${inputValue}&type=like&appid=24103f99cb5a8ecdcffeaeaa887f17ac`
