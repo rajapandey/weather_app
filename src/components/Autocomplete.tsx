@@ -8,10 +8,12 @@ interface AutocompleteProps {
 const Autocomplete: React.FC<AutocompleteProps> = ({ onSelectCity }) => {
   const [inputValue, setInputValue] = useState("");
   const [suggestions, setSuggestions] = useState<string[]>([]);
+  const [error, setError] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchSuggestions = async () => {
       if (inputValue.length) {
+        setError(true);
         try {
           const response = await axios.get(
             `http://api.openweathermap.org/data/2.5/find?q=${inputValue}&type=like&appid=24103f99cb5a8ecdcffeaeaa887f17ac`
@@ -34,6 +36,7 @@ const Autocomplete: React.FC<AutocompleteProps> = ({ onSelectCity }) => {
     setSuggestions([]);
     setInputValue(city);
     onSelectCity(city);
+    setError(false)
   };
 
   return (
@@ -63,7 +66,7 @@ const Autocomplete: React.FC<AutocompleteProps> = ({ onSelectCity }) => {
 
       {/* Display Error */}
       <div className=" text-red-500 bold font-semibold">
-        {(inputValue && suggestions.length == 0) && "No city Found"}
+        {error && "No city Found"}
       </div>
     </>
   );
